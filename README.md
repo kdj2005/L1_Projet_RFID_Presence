@@ -36,14 +36,16 @@ Le projet est une chaîne technologique complète divisée en deux grandes phase
 
 ---
 
-## [cite_start]📁 Structure du Dépôt GitHub [cite: 62]
+
+## 📁 Structure du Dépôt GitHub
 
 Pour garantir la clarté du projet, le dépôt est organisé de la manière suivante :
 
 * 📁 **`/arduino`** : Code source chargé dans le microcontrôleur pour la lecture RFID et l'émission des payloads LoRaWAN.
-* 📁 **`/server`** : Code source de l'API Node.js (connexion MongoDB, gestion des routes d'authentification) configuré pour Render.
-* 📁 **`/interface`** : Fichiers frontend (HTML/CSS/JS) de l'interface d'administration permettant de créer les utilisateurs dans la base de données.
-* [cite_start]📁 **`/doc`** : Cahiers de suivi de projet individuels, à renseigner obligatoirement pour chaque séance. [cite: 62, 63]
+* 📁 **`/server`** : Code source complet du backend Node.js (connexion MongoDB, API REST, et gestion des routes) configuré pour Render.
+  * 📁 **`/public`** : Contient les fichiers frontend (HTML/CSS/JS) de l'interface d'inscription et d'administration, directement servis par notre serveur Node.js.
+* [cite_start]📁 **`/doc`** : Cahiers de suivi de projet individuels, à renseigner obligatoirement pour chaque séance[cite: 62, 63].
+
 
 ---
 
