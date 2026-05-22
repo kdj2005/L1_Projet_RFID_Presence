@@ -1,8 +1,4 @@
-Voici le tutoriel complet et structuré pour ton **`README.md`** principal (ou pour un fichier dédié aux configurations Cloud). Il explique pas à pas la configuration de **TTN**, de **TagoIO**, du script **Analysis** et des **Actions**, tout en rappelant dès le début qu'il faut d'abord avoir configuré l'Arduino et le serveur.
 
-Tu peux copier-coller tout ce bloc :
-
-```markdown
 # 🚀 Tutoriel Configuration Cloud : TTN ➔ TagoIO ➔ API Render
 
 > ⚠️ **IMPORTANT : AVANT DE COMMENCER**
