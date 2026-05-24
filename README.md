@@ -1,13 +1,15 @@
    L1_Projet_RFID_Presence
 Système IoT d'émargement et de présence par badge RFID via le réseau LoRaWAN (TTN), TagoIO et une API Node.js pour identifier l'utilisateur.
-  Ce projet est réalisé dans le cadre du module Communication Sans Fil en Licence 1 à l'Université Nice Sophia Antipolis. [cite: 61]
+  Ce projet est réalisé dans le cadre du module Communication Sans Fil en Licence 1 à l'Université Côte d'Azur, campus de valrose.   
 
-    Système IoT d'Émargement et de Présence RFID via LoRaWAN
+Système IoT d'Émargement et de Présence RFID via LoRaWAN
 
 _Description du Projet_
 Ce projet consiste à développer un système connecté de gestion des présences en temps réel. La logique principale repose sur un principe simple :     une base de données est créée au préalable pour enregistrer un utilisateur et lui associer l'identifiant unique de sa carte (UID)    . Une fois cet enrôlement fait, le lecteur RFID nous permet, lors d'un scan en direct, de détecter instantanément à qui appartient la carte, d'enregistrer sa présence et d'afficher son identité sur un tableau de bord.
 
       
+
+
 
 _Architecture Globale du Système_
 
@@ -29,14 +31,14 @@ Le projet est une chaîne technologique complète divisée en deux grandes phase
 _Technologies Utilisées_
 
   -    Hardware     : Lecteur RFID / NFC, carte de développement et module émetteur LoRaWAN.
-  -      Réseau     : The Things Network (TTN) pour la gestion du réseau LoRaWAN. [cite: 18]
+  -      Réseau     : The Things Network (TTN) pour la gestion du réseau LoRaWAN. 
   Cloud & Dashboard: TagoIO pour la réception des données et l'affichage des widgets graphiques.
   Backend : API REST développée en Node.js et déployée sur     Render    .
   Base de données : MongoDB Atlas (NoSQL) pour le stockage des utilisateurs et des historiques de présence.
 
       
 
-_
+
 _Structure du Dépôt GitHub__
 
 Pour garantir la clarté du projet, le dépôt est organisé de la manière suivante :
