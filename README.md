@@ -2,14 +2,14 @@
 Système IoT d'émargement et de présence par badge RFID via le réseau LoRaWAN (TTN), TagoIO et une API Node.js pour identifier l'utilisateur.
   Ce projet est réalisé dans le cadre du module Communication Sans Fil en Licence 1 à l'Université Nice Sophia Antipolis. [cite: 61]
 
-   🪪 Système IoT d'Émargement et de Présence RFID via LoRaWAN
+    Système IoT d'Émargement et de Présence RFID via LoRaWAN
 
-     📝 Description du Projet
+_Description du Projet_
 Ce projet consiste à développer un système connecté de gestion des présences en temps réel. La logique principale repose sur un principe simple :     une base de données est créée au préalable pour enregistrer un utilisateur et lui associer l'identifiant unique de sa carte (UID)    . Une fois cet enrôlement fait, le lecteur RFID nous permet, lors d'un scan en direct, de détecter instantanément à qui appartient la carte, d'enregistrer sa présence et d'afficher son identité sur un tableau de bord.
 
       
 
-🏗️ Architecture Globale du Système
+_Architecture Globale du Système_
 
 Le projet est une chaîne technologique complète divisée en deux grandes phases :
 
@@ -26,7 +26,7 @@ Le projet est une chaîne technologique complète divisée en deux grandes phase
 
       
 
-     💻 Technologies Utilisées
+_Technologies Utilisées_
 
   -    Hardware     : Lecteur RFID / NFC, carte de développement et module émetteur LoRaWAN.
   -      Réseau     : The Things Network (TTN) pour la gestion du réseau LoRaWAN. [cite: 18]
@@ -36,8 +36,8 @@ Le projet est une chaîne technologique complète divisée en deux grandes phase
 
       
 
-
-Structure du Dépôt GitHub
+_
+_Structure du Dépôt GitHub__
 
 Pour garantir la clarté du projet, le dépôt est organisé de la manière suivante :
 
@@ -48,8 +48,8 @@ Pour garantir la clarté du projet, le dépôt est organisé de la manière suiv
 
 
 
-👥 Membres du Groupe, etudiants en  Licence 1, Université côte d'Azur
+*_Membres du Groupe, etudiants en  Licence 1, Université côte d'Azur_
 
-KOUDOKODJI Fadel
-KIKI Ayodélé Précieux
+KOUDOKODJI Fadel   
+KIKI Ayodélé Précieux  
 DIALLO Issa
