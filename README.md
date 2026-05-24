@@ -48,7 +48,7 @@ Pour garantir la clarté du projet, le dépôt est organisé de la manière suiv
 
 
 
-*_Membres du Groupe, etudiants en  Licence 1, Université côte d'Azur_
+_Membres du Groupe, etudiants en  Licence 1, Université côte d'Azur_
 
 KOUDOKODJI Fadel   
 KIKI Ayodélé Précieux  
