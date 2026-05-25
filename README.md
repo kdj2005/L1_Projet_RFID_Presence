@@ -1,57 +1,56 @@
-   L1_Projet_RFID_Presence
-Système IoT d'émargement et de présence par badge RFID via le réseau LoRaWAN (TTN), TagoIO et une API Node.js pour identifier l'utilisateur.
-  Ce projet est réalisé dans le cadre du module Communication Sans Fil en Licence 1 à l'Université Côte d'Azur, campus de valrose.   
+Ce projet est réalisé dans le cadre du module Communication Sans Fil en Licence 1 à l'Université Nice Sophia Antipolis.
 
-Système IoT d'Émargement et de Présence RFID via LoRaWAN
+# 🔐 Système IoT de Contrôle d'Accès et d'Autorisation RFID via LoRaWAN
 
-_Description du Projet_
-Ce projet consiste à développer un système connecté de gestion des présences en temps réel. La logique principale repose sur un principe simple :     une base de données est créée au préalable pour enregistrer un utilisateur et lui associer l'identifiant unique de sa carte (UID)    . Une fois cet enrôlement fait, le lecteur RFID nous permet, lors d'un scan en direct, de détecter instantanément à qui appartient la carte, d'enregistrer sa présence et d'afficher son identité sur un tableau de bord.
+## 📝 Description du Projet
+Ce projet consiste à développer un système connecté de contrôle d'accès et de vérification des autorisations en temps réel pour la sécurisation d'un lieu. 
 
-      
+La logique principale repose sur un annuaire sécurisé : **une base de données MongoDB est configurée au préalable pour enregistrer les utilisateurs, leur attribuer un rôle spécifique (ex: Utilisateur standard, Responsable) et définir leurs droits d'accès**. 
 
+Lorsqu'un badge est scanné en direct, le système identifie l'individu, vérifie s'il possède l'autorisation requise pour accéder au lieu, et affiche instantanément le verdict (Accès Accordé ou Refusé) sur un tableau de bord de supervision.
 
+---
 
-_Architecture Globale du Système_
+## 🏗️ Architecture Globale du Système
 
-Le projet est une chaîne technologique complète divisée en deux grandes phases :
+Le projet est divisé en deux grandes phases :
 
-       1. Phase d'Enrôlement (Création de l'utilisateur)
-  -    L'Interface d'Administration     : Un panneau d'administration permet à un gestionnaire de saisir le Nom et le Prénom d'un nouvel étudiant.
-  -    La Base de Données (MongoDB)     : Ces informations, associées à l'identifiant de sa carte RFID (`cartId`), sont sauvegardées dans notre base de données     MongoDB Atlas    . Notre base sert ainsi d'annuaire de référence.
+### 1. Phase d'Enrôlement & Gestion des Droits (Back-Office)
+* **L'Interface d'Inscription & d'Administration** : Permet d'enregistrer un nouvel individu (Nom, Prénom), de lui associer l'identifiant unique de son badge (`cartId`), et de lui définir un rôle ainsi qu'un statut d'autorisation initial.
+* **La Base de Données (MongoDB)** : Stocke le profil complet de l'utilisateur avec ses privilèges d'accès. Elle sert de référence absolue pour l'authentification.
 
-       2. Phase de Détection (Pointage en direct)
-2-1.     Le Capteur (RFID)     : L'utilisateur scanne sa carte. Le lecteur récupère son UID brut (ex: `7BF81607`) sans savoir à qui il appartient.
-2-2     Le Réseau Sans Fil (LoRaWAN)     : Le module LoRa transmet cet UID à travers les airs. Le message est capté par la passerelle (Gateway) du FabLab et centralisé sur     The Things Network (TTN)    .
-2-3     La Plateforme IoT (TagoIO)     : TTN redirige la donnée vers TagoIO. Dès que le scan arrive, une *Analysis  -(script Node.js) se déclenche automatiquement pour récupérer l'UID.
-2-4.     Le Serveur API (Node.js & Render)     : L'Analysis TagoIO envoie l'UID à notre API personnalisée hébergée sur     Render    .
-2-5    L'Identification     : Le serveur Node.js interroge la base     MongoDB    , trouve la correspondance, et renvoie le Nom et le Prénom à TagoIO qui met instantanément à jour le Dashboard avec l'identité de l'étudiant (ex: *Fadel Koudokodji*).
+### 2. Phase de Vérification (Contrôle d'Accès en direct)
+1. **Le Capteur (RFID)** : L'utilisateur présente son badge devant le lecteur. Celui-ci extrait l'UID brut (ex: `7BF81607`) et le transmet sans traitement local.
+2. **Le Réseau Sans Fil (LoRaWAN)** : Le module LoRa envoie cet UID de manière sécurisée et à longue portée vers la passerelle du FabLab, qui le pousse sur **The Things Network (TTN)**.
+3. **La Plateforme IoT (TagoIO)** : TTN transmet l'UID à TagoIO. Un script *Analysis* (Node.js) intercepte immédiatement la donnée dès qu'un scan est détectée.
+4. **Le Serveur API (Node.js & Render)** : L'Analysis TagoIO interroge notre API personnalisée sur **Render** en lui fournissant l'UID de la carte.
+5. **Le Verdict d'Autorisation** : Le serveur Node.js cherche la carte dans **MongoDB**. Il récupère l'identité, vérifie le rôle de la personne et ses droits d'accès, puis renvoie le résultat JSON à TagoIO.
+6. **L'Affichage de Supervision** : TagoIO met à jour le Dashboard en temps réel en affichant l'identité de la personne et le statut de l'accès :
+   * 🟢 **ACCÈS ACCORDÉ** (ex: Si l'utilisateur est enregistré et actif).
+   * 🔴 **ACCÈS REFUSÉ** (ex: Si la carte est inconnue ou si les droits ont été révoqués).
 
-      
+---
 
-_Technologies Utilisées_
+## 💻 Technologies Utilisées
 
-  -    Hardware     : Lecteur RFID / NFC, carte de développement et module émetteur LoRaWAN.
-  -      Réseau     : The Things Network (TTN) pour la gestion du réseau LoRaWAN. 
-  Cloud & Dashboard: TagoIO pour la réception des données et l'affichage des widgets graphiques.
-  Backend : API REST développée en Node.js et déployée sur     Render    .
-  Base de données : MongoDB Atlas (NoSQL) pour le stockage des utilisateurs et des historiques de présence.
+* **Hardware** : Lecteur RFID RC522, carte de développement (RThing Card) et antenne LoRaWAN 868 MHz.
+* **Réseau** : The Things Network (TTN) pour la couche réseau LoRaWAN.
+* **Cloud & Dashboard** : TagoIO pour la réception des payloads, l'exécution des règles métiers et l'interface de contrôle.
+* **Backend** : API REST développée en Node.js (Express) et déployée sur **Render**.
+* **Base de données** : MongoDB Atlas (NoSQL) pour la gestion sécurisée des rôles et des autorisations.
 
-      
+---
 
+## 📁 Structure du Dépôt GitHub
 
-_Structure du Dépôt GitHub__
+Le dépôt est organisé de la manière suivante :
 
-Pour garantir la clarté du projet, le dépôt est organisé de la manière suivante :
+* 📁 **`/arduino`** : Code source embarqué pour la lecture RFID SPI et l'émission des paquets LoRaWAN ABP (contient le guide de câblage matériel).
+* 📁 **`/server`** : Code source de l'API de contrôle d'accès Node.js (logique de vérification des rôles MongoDB) prête pour le déploiement.
+  * 📁 **`/public`** : Fichiers de l'interface d'administration (création des profils et attribution des autorisations).
+* 📁 **`/doc`** : Cahiers de suivi de projet individuels (Fichiers `PrenomNOM.md`), mis à jour à chaque séance.
 
-/arduino : Code source chargé dans le microcontrôleur pour la lecture RFID et l'émission des payloads LoRaWAN.
-/server : Code source complet du backend Node.js (connexion MongoDB, API REST, et gestion des routes) configuré pour Render.
-/public   : Contient les fichiers frontend (HTML/CSS/JS) de l'interface d'inscription et d'administration, directement servis par notre serveur Node.js.
-/doc   : Cahiers de suivi de projet individuels, à renseigner obligatoirement pour chaque séance[cite: 62, 63].
+---
 
-
-
-_Membres du Groupe, etudiants en  Licence 1, Université côte d'Azur_
-
-KOUDOKODJI Fadel   
-KIKI Ayodélé Précieux  
-DIALLO Issa
+## 👥 Membres du Groupe
+* **Fadel KOUDOKODJI** - Licence 1, Université Nice Sophia Antipolis
