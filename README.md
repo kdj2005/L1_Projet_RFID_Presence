@@ -54,4 +54,6 @@ Le dépôt est organisé de la manière suivante :
 ---
 
 ## 👥 Membres du Groupe
-* **Fadel KOUDOKODJI** - Licence 1, Université Nice Sophia Antipolis
+* **Fadel KOUDOKODJI** - Licence 1, Université Nice campus valrose
+* **Précieux KIKI**- Licence 1, Université Nice campus valrose
+* **Issa DIALLO**- Licence 1, Université Nice campus valrose
