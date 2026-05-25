@@ -71,51 +71,92 @@ L'**Analysis** est un script de code exécuté directement sur le Cloud de TagoI
 2. Colle le code suivant dans l'éditeur de TagoIO :
 
 ```javascript
-const { Analysis, Device } = require("@tago-io/sdk");
-const axios = require("axios"); // Pour faire l'appel à notre API Render
+import pkg from "@tago-io/sdk";
+
+const { Analysis, Device, Utils } = pkg;
 
 async function myAnalysis(context, scope) {
-  context.log("Analyse déclenchée !");
-
-  // 1. Récupérer la variable "uid_carte" envoyée par TTN
-  const uidData = scope.find((item) => item.variable === "uid_carte");
-
-  if (!uidData) {
-    context.log("Aucun UID trouvé dans le payload.");
-    return;
-  }
-
-  const uid = uidData.value;
-  context.log(`UID détecté : ${uid}`);
 
   try {
-    // 2. Envoyer l'UID à notre API hébergée sur Render
-    // Remplace par l'URL exacte de ton serveur Render
-    const response = await axios.post("[https://ton-api-render.onrender.com/presence/go-presence](https://ton-api-render.onrender.com/presence/go-presence)", {
-      cartId: uid
+
+    const card = scope.find(x => x.variable === "uid");
+
+    if (!card) {
+      context.log("Aucun UID trouvé.");
+      return;
+    }
+
+    console.log("UID reçu :", card.value);
+
+    const response = await fetch(
+      "lurl de ton serveur heberge",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          cartId: card.value
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log("Réponse API :", data);
+
+    const environment = Utils.envToJson(context.environment);
+
+    // Vérifie le token
+    if (!environment.device_token) {
+      context.log("device_token manquant.");
+      return;
+    }
+
+    // Connexion Device
+    const device = new Device({
+      token: environment.device_token
     });
 
-    const student = response.data; // Reçoit { prenom: "Fadel", nom: "KOUDOKODJI" }
-
-    // 3. Préparer les variables pour l'affichage sur le Dashboard TagoIO
-    const deviceId = uidData.device;
-    const myDevice = new Device({ token: "TON_DEVICE_TOKEN_TAGOIO" });
-
-    const dataToSend = [
-      { variable: "etudiant_nom", value: `${student.prenom} ${student.nom}` },
-      { variable: "statut_presence", value: "Présent ✅" }
+    const variablesToSend = [
+      {
+        variable: "username",
+        value: data.username || "Inconnu",
+      },
+      {
+        variable: "firstname",
+        value: data.prenom || "Inconnu",
+      },
+      {
+  variable: "autorisation",
+  value: data.autorisation || "Inconnu",
+    
+    
+  })
+}
+      
     ];
 
-    // Envoi des variables dans la mémoire de TagoIO
-    await myDevice.sendData(dataToSend);
-    context.log("Dashboard mis à jour avec le nom de l'étudiant !");
+    console.log("Envoi :", variablesToSend);
+
+    await device.sendData(variablesToSend);
+
+    context.log(
+      `Données enregistrées pour ${data.prenom || "Inconnu"}`
+    );
 
   } catch (error) {
-    context.log("Erreur d'identification ou étudiant inconnu dans MongoDB.");
+
+    context.log(`Erreur : ${error.message}`);
+
   }
 }
 
-module.exports = new Analysis(myAnalysis);
+export default new Analysis(myAnalysis);
 
 ```
 
@@ -130,7 +171,7 @@ Pour que le script **Analysis** s'exécute automatiquement à chaque fois qu'un 
 * **Action Name** : `Declencheur Scan RFID`.
 * **Trigger Type** : Sélectionnez **Variable**.
 * **Device** : Choisis ton `Boitier_RFID`.
-* **Condition** : Si la variable `uid_carte` **Any** (reçoit n'importe quelle valeur).
+* **Condition** : Si la variable `uid` **Any** (reçoit n'importe quelle valeur).
 
 
 3. Dans l'onglet **Type of Action** (en haut) :
@@ -146,7 +187,7 @@ Quand une carte passe sur le lecteur RFID :
 
 1. L'Arduino envoie l'UID brut via **LoRaWAN**.
 2. **TTN** le décode en texte clair.
-3. **TagoIO** reçoit la variable `uid_carte`.
+3. **TagoIO** reçoit la variable `uid`.
 4. L'**Action** détecte le changement et lance l'**Analysis**.
 5. L'**Analysis** interroge **Render + MongoDB**, récupère l'identité (Ex: *Fadel Koudokodji*) et l'affiche instantanément sur ton widget de texte sur le Dashboard TagoIO !
 
