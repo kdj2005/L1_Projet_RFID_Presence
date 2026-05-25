@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const bcrypt = require("bcrypt");
-
 
 const userSchema = new mongoose.Schema({
     cartId: {
@@ -28,6 +26,10 @@ const userSchema = new mongoose.Schema({
             message: "Invalid email format"
         }
     },
+    role:{
+        type:String,
+        required:true
+    }
     createdAt: {
         type: Date,
         default: Date.now
