@@ -2,7 +2,7 @@
 **Rôle :** Chef de projet / Développement du code Serveur et Cloud
 
 ---
-
+ 
 ## 🗓️ Séance 1 : Création de la base de données
 * **Ce que j'ai fait :**
   * J'ai créé le dépôt GitHub pour l'équipe.
